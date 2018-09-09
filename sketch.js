@@ -23,8 +23,8 @@ var eraser;
 border = 12;
 
 function centerDOMs() {
-  var x = (windowWidth - width) / 2;
-  var y = 20;
+  var x = ((windowWidth - width) / 2);
+  var y = 5;
   canvas.position(x, y);
 
   spacing = (canvas.height - (border * 4)) / colorButtons.length;
@@ -39,8 +39,8 @@ function centerDOMs() {
   }
 
   for (var i = 0; i < weightButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + 60;
-    weightButtons[i].position(x + canvas.width + 50, cbY);
+    cbX = (i * spacing) + (canvas.x) + 60;
+    weightButtons[i].position(cbX, y + canvas.height);
   }
 }
 
@@ -250,8 +250,8 @@ function setup() {
 
   eraser = false;
 
-  currentColor = color('#fff');
-  currentWeight = 1;
+  currentColor = color('#000');
+  currentWeight = 4;
 
   bounds = {
     top: border,
