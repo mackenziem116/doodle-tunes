@@ -9,8 +9,8 @@ var system = vf.System();
 
 system.addStave({
   voices: [
-    score.voice(score.notes('C#5/q, B4, A4, G#4', {stem: 'up'})),
-    score.voice(score.notes('C#4/h, C#4', {stem: 'down'}))
+    score.voice(score.notes('C5/q, G4, D5, C5', {stem: 'up'})),
+    score.voice(score.notes('(C4 E4)/h, (F4 G4)/q, (E4 G4)/q', {stem: 'down'}))
   ]
 }).addClef('treble').addTimeSignature('4/4');
 
