@@ -20,6 +20,9 @@ var bounds;
 
 var eraser;
 
+var db;
+var sessionID;
+
 border = 12;
 
 function centerDOMs() {
@@ -171,11 +174,14 @@ function createToolButtons() {
 
   });
 
-  buttonSave = createButton("Save");
+  buttonSave = createButton("Submit");
   buttonSave.parent('#doodle-canvas');
   buttonSave.class('tool-button');
   buttonSave.mousePressed(function() {
-
+    var fin = new DataFormat(db, sessionID, drawing);
+    fin.addToDrawingTable();
+    fin.addToPathTable();
+    fin.addToVertexTable();
   });
 
   toolButtons = [buttonClear, buttonErase, buttonUndo, buttonRedo, buttonSave];
@@ -193,7 +199,6 @@ function drawPath() {
   }
 
   drawing.push(piece);
-  console.log(drawing);
 }
 
 function createDrawing() {
@@ -238,6 +243,11 @@ function createDrawing() {
 }
 
 function setup() {
+  db = new DBConnect();
+  sessionID = Math.random().toString(24).substr(2, 15);
+
+  console.log(sessionID, db.createTimestamp());
+
   canvas = createCanvas(400, 400);
   canvas.parent('#doodle-canvas');
   canvas.style('canvas');
