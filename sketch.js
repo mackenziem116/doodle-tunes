@@ -20,11 +20,14 @@ var bounds;
 
 var eraser;
 
+var db;
+var sessionID;
+
 border = 12;
 
 function centerDOMs() {
-  var x = (windowWidth - width) / 2;
-  var y = 20;
+  var x = ((windowWidth - width) / 2);
+  var y = 5;
   canvas.position(x, y);
 
   spacing = (canvas.height - (border * 4)) / colorButtons.length;
@@ -39,8 +42,8 @@ function centerDOMs() {
   }
 
   for (var i = 0; i < weightButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + 60;
-    weightButtons[i].position(x + canvas.width + 50, cbY);
+    cbX = (i * spacing) + (canvas.x) + 60;
+    weightButtons[i].position(cbX, y + canvas.height);
   }
 }
 
@@ -171,11 +174,16 @@ function createToolButtons() {
 
   });
 
-  buttonSave = createButton("Save");
+  buttonSave = createButton("Submit");
   buttonSave.parent('#doodle-canvas');
   buttonSave.class('tool-button');
   buttonSave.mousePressed(function() {
+    var fin = new DataFormat(db, sessionID, drawing);
+    fin.addToDrawingTable();
+    fin.addToPathTable();
+    fin.addToVertexTable();
 
+    drawing = [];
   });
 
   toolButtons = [buttonClear, buttonErase, buttonUndo, buttonRedo, buttonSave];
@@ -193,7 +201,6 @@ function drawPath() {
   }
 
   drawing.push(piece);
-  console.log(drawing);
 }
 
 function createDrawing() {
@@ -238,6 +245,11 @@ function createDrawing() {
 }
 
 function setup() {
+  db = new DBConnect();
+  sessionID = Math.random().toString(24).substr(2, 15);
+
+  console.log(sessionID, db.createTimestamp());
+
   canvas = createCanvas(400, 400);
   canvas.parent('#doodle-canvas');
   canvas.style('canvas');
@@ -250,8 +262,8 @@ function setup() {
 
   eraser = false;
 
-  currentColor = color('#fff');
-  currentWeight = 1;
+  currentColor = color('#000');
+  currentWeight = 4;
 
   bounds = {
     top: border,
