@@ -14,7 +14,7 @@ CREATE TABLE drawings (
     session_id VARCHAR(12),
     drawing_time TIMESTAMP,
     playback_id VARCHAR(12),
-	CONSTRAINT fk_drawings_sessions
+	CONSTRAINT fk_session_id_drawings_sessions
 		FOREIGN KEY (session_id)
         REFERENCES sessions (session_id)
 );
@@ -26,7 +26,7 @@ CREATE TABLE path_characteristics (
     color_g TINYINT,
     color_b TINYINT,
     stroke_weight TINYINT,
-    CONSTRAINT fk_path_characteristics_drawings
+    CONSTRAINT fk_drawing_id_path_characteristics_drawings
 		FOREIGN KEY (drawing_id)
         REFERENCES drawings (drawing_id),
 	PRIMARY KEY(drawing_id, path_number)
@@ -38,7 +38,7 @@ CREATE TABLE path_verticies (
     vertex_number TINYINT NOT NULL, 
     vertex_x DOUBLE,
     vertex_y DOUBLE,
-    CONSTRAINT fk_path_verticies_drawings
+    CONSTRAINT fk_drawing_id_path_verticies_drawings
 		FOREIGN KEY (drawing_id)
         REFERENCES drawings (drawing_id),
 	PRIMARY KEY(drawing_id, path_number, vertex_number)
