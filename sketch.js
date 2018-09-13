@@ -182,6 +182,8 @@ function createToolButtons() {
     fin.addToDrawingTable();
     fin.addToPathTable();
     fin.addToVertexTable();
+
+    drawing = [];
   });
 
   toolButtons = [buttonClear, buttonErase, buttonUndo, buttonRedo, buttonSave];
