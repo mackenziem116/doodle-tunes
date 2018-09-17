@@ -180,8 +180,8 @@ function createToolButtons() {
   buttonSave.mousePressed(function() {
     var df = new DataFormat(drawing);
     df.addToDrawingTable(socket);
-    df.addToPathTable();
-    df.addToVertexTable();
+    df.addToPathTable(socket);
+    df.addToVertexTable(socket);
 
     drawing = [];
   });
