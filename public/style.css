@@ -19,7 +19,7 @@ body {
   position: absolute;
   left: 30px;
   right: 915px;
-  top: 55px;
+  top: 20px;
   bottom: 125px;
 }
 
@@ -64,6 +64,16 @@ body {
   background-color: #F0EEE1;
   border: 0;
   border-radius: 1em;
+}
+
+.play-button {
+  padding: .5em;
+  font-family: 'fantasy', Chalkduster;
+  font-size: 1em;
+  background-color: #F0EEE1;
+  border: 3px solid ;
+  border-radius: 1em;
+
 }
 
 .weight-button {
