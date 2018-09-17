@@ -26,15 +26,15 @@ function newConnection(socket) {
 
   insertInto(connection, 'sessions', sessionTable);
 
-  socket.on('drawingTable', function(data) {
+  socket.on('doodleTable', function(data) {
 
     var data = {
       session_id: socket.id,
-      drawing_id: data.drawing_id,
+      doodle_id: data.doodle_id,
       drawing_time: createTimestamp()
     }
 
-    insertInto(connection, 'drawings', data);
+    insertInto(connection, 'doodles', data);
   });
 
   socket.on('pathTable', function(data) {

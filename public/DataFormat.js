@@ -1,24 +1,25 @@
 class DataFormat {
 
-  constructor(drawing) {
-    this.drawing = drawing;
-    this.drawingID = Math.random().toString(24).substr(2, 15);
+  constructor(doodle) {
+    this.doodle = doodle;
+    this.doodleID = Math.random().toString(24).substr(2, 15);
   }
 
   addToDrawingTable(socket) {
     var data = {
-      drawing_id: this.drawingID
+      doodle_id: this.doodleID
     }
-    socket.emit('drawingTable', data);
+    socket.emit('doodleTable', data);
   }
 
-  addToPathTable() {
-    for (var i = 0; i < drawing.length; i++) {
-      var path = drawing[i];
+  addToPathTable(socket) {
+    console.log(this.doodle)
+    for (var i = 0; i < this.doodle.length; i++) {
+      var path = this.doodle[i];
       var rgb = path.color.levels;
 
       var data = {
-        drawing_id: this.drawingID,
+        doodle_id: this.doodleID,
         path_number: i,
         color_r: rgb[0],
         color_g: rgb[1],
@@ -29,13 +30,13 @@ class DataFormat {
     }
   }
 
-  addToVertexTable() {
-    for (var i = 0; i < drawing.length; i++) {
-      var path = drawing[i].path;
+  addToVertexTable(socket) {
+    for (var i = 0; i < this.doodle.length; i++) {
+      var path = this.doodle[i].path;
       for (var j = 0; j < path.length; j++) {
         var vertex = path[j];
         var data = {
-          drawing_id: this.drawingID,
+          doodle_id: this.doodleID,
           path_number: i,
           vertex_number: j,
           vertex_x: vertex.x,
