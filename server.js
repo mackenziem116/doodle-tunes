@@ -45,6 +45,30 @@ function newConnection(socket) {
     insertInto(connection, 'path_verticies', data);
   });
 
+  data = {
+    1: [52, 44, 40],
+    2: [47],
+    3: [54, 47, 45],
+    4: [52, 47, 44],
+    melody: 'C5/q, G4/q, D5/q, C5/q',
+    harmony: '(C4 E4)/h, (F4 G4)/q, (E4 G4)/q'
+  }
+
+  socket.emit('sendTune', data);
+
+  socket.on('getNewTune', function() {
+
+    data = {
+      1: [56, 40, 37],
+      2: [52],
+      3: [52, 47, 45],
+      4: [49, 45, 40],
+      melody: 'E5/q, C5/q, C5/q, A4/q',
+      harmony: '(C4 A3)/h, (G4 F4)/q, (F4 C4)/q'
+    }
+
+    socket.emit('sendTune', data);
+  })
 }
 
 function createTimestamp() {

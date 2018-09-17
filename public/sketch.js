@@ -15,6 +15,7 @@ var canvas;
 var colorButtons;
 var weightButtons;
 var toolButtons;
+var playButtons;
 
 var bounds;
 
@@ -23,9 +24,16 @@ var eraser;
 var socket;
 var sessionID;
 
+var keys = [];
+var playback;
+var melody;
+var harmony;
+
+var staff;
+
 border = 12;
 
-function centerDOMs() {
+function positionDOMs() {
   var x = ((windowWidth - width) / 2);
   var y = 5;
   canvas.position(x, y);
@@ -45,6 +53,10 @@ function centerDOMs() {
     cbX = (i * spacing) + (canvas.x) + 60;
     weightButtons[i].position(cbX, y + canvas.height);
   }
+
+  playButtons[0].position(x - 105, -97);
+  playButtons[1].position(x + canvas.width + 12, -97);
+
 }
 
 function setColor(c) {
@@ -244,16 +256,59 @@ function createDrawing() {
   }
 }
 
+function createPlayButton() {
+  buttonPlay = createButton("Play");
+  buttonPlay.parent('#doodle-canvas');
+  buttonPlay.class('play-button');
+  buttonPlay.mousePressed(playMusic);
+
+  buttonNext = createButton("Next");
+  buttonNext.parent('#doodle-canvas');
+  buttonNext.class('play-button');
+  buttonNext.mousePressed(function() {
+    socket.emit('getNewTune');
+  });
+
+  playButtons = [buttonPlay, buttonNext]
+}
+
+async function sleep(ms = 0) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+async function playMusic() {
+
+  time = 800;
+
+  for (var i = 0; i < playback.length; i++) {
+    beat = playback[i];
+    for (var j = 0; j < beat.length; j++) {
+      midi_num = beat[j] - 1;
+      keys[midi_num].play();
+    }
+    await sleep(time);
+  }
+}
+
 function setup() {
   canvas = createCanvas(400, 400);
   canvas.parent('#doodle-canvas');
   canvas.style('canvas');
   canvas.mousePressed(drawPath);
 
+  const VF = Vex.Flow;
+  staff = new Staff(VF);
+
+  for (var i = 1; i < 62; i++) {
+    path = 'wav/' + i + '.wav'
+    keys.push(loadSound(path))
+  }
+
   createColorButtons();
   createToolButtons();
   createWeightButtons();
-  centerDOMs();
+  createPlayButton();
+  positionDOMs();
 
   eraser = false;
 
@@ -268,7 +323,11 @@ function setup() {
   }
 
   socket = io.connect('http://localhost:3000');
-
+  socket.on('sendTune', function(data) {
+    playback = Object.values(data).slice(0, 4);
+    melody = data.melody
+    harmony = data.harmony
+  });
 }
 
 function draw() {
@@ -287,8 +346,16 @@ function draw() {
   strokeWeight(border);
   rectMode(CORNERS);
   rect(bounds.left, bounds.top, bounds.right, bounds.bottom, 30);
+
+  socket.on('sendTune', function(data) {
+    playback = Object.values(data).slice(0, 4);
+    melody = data.melody
+    harmony = data.harmony
+  });
+
+  staff.createStaff(harmony, melody);
 }
 
 function windowResized() {
-  centerDOMs();
+  positionDOMs();
 }

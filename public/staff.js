@@ -1,17 +1,23 @@
-const VF = Vex.Flow;
+class Staff {
 
-var vf = new VF.Factory({
-  renderer: {elementId: 'staff', width: 450, height: 200}
-});
+  constructor(VF) {
+    this.vf = new VF.Factory({
+      renderer: {elementId: 'staff', width: 450, height: 200}
+    });
+  }
 
-var score = vf.EasyScore();
-var system = vf.System();
+  createStaff(melody, harmony) {
 
-system.addStave({
-  voices: [
-    score.voice(score.notes('C5/q, G4, D5, C5', {stem: 'up'})),
-    score.voice(score.notes('(C4 E4)/h, (F4 G4)/q, (E4 G4)/q', {stem: 'down'}))
-  ]
-}).addClef('treble').addTimeSignature('4/4');
+    var score = this.vf.EasyScore();
+    var system = this.vf.System();
 
-vf.draw();
+    system.addStave({
+      voices: [
+        score.voice(score.notes(melody, {stem: 'up'})),
+        score.voice(score.notes(harmony, {stem: 'down'}))
+      ]
+    }).addClef('treble').addTimeSignature('4/4');
+
+    vf.draw();
+  }
+}
