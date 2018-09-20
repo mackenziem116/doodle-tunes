@@ -26,26 +26,33 @@ var sessionID;
 
 var keys = [];
 var playback;
+<<<<<<< HEAD:public/sketch.js
 var melody;
 var harmony;
 
 var staff;
+=======
+var draw_notes;
+
+var staff;
+var images;
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
 
 border = 12;
 
 function positionDOMs() {
   var x = ((windowWidth - width) / 2);
-  var y = 5;
+  var y = -30;
   canvas.position(x, y);
 
-  spacing = (canvas.height - (border * 4)) / colorButtons.length;
+  spacing = .8 * ((canvas.height - (border * 4)) / colorButtons.length);
   for (var i = 0; i < colorButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + 20;
+    cbY = y + (i * spacing) + (canvas.y) + 200;
     colorButtons[i].position(x + canvas.width + 10, cbY);
   }
 
   for (var i = 0; i < toolButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + 20;
+    cbY = y + (i * spacing) + (canvas.y) + 200;
     toolButtons[i].position(x - 70, cbY);
   }
 
@@ -54,8 +61,13 @@ function positionDOMs() {
     weightButtons[i].position(cbX, y + canvas.height);
   }
 
+<<<<<<< HEAD:public/sketch.js
   playButtons[0].position(x - 105, -97);
   playButtons[1].position(x + canvas.width + 12, -97);
+=======
+  playButtons[0].position(x - 80, 32);
+  playButtons[1].position(x + canvas.width + 12, 32);
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
 
 }
 
@@ -70,35 +82,35 @@ function createColorButtons() {
   var colorsHex = ['#000', '#f00', '#ff0', '#00f', '#fff'];
 
   buttonBlack = createButton('');
-  buttonBlack.parent('#doodle-canvas');
+  buttonBlack.parent('#main-canvas');
   buttonBlack.class('black color-button')
   buttonBlack.mousePressed(function() {
     setColor(color(colorsHex[0]));
   });
 
   buttonWhite = createButton('');
-  buttonWhite.parent('#doodle-canvas');
+  buttonWhite.parent('#main-canvas');
   buttonWhite.class('white color-button');
   buttonWhite.mousePressed(function() {
     setColor(color(colorsHex[4]));
   });
 
   buttonRed = createButton('');
-  buttonRed.parent('#doodle-canvas');
+  buttonRed.parent('#main-canvas');
   buttonRed.class('red color-button');
   buttonRed.mousePressed(function() {
     setColor(color(colorsHex[1]));
   });
 
   buttonYellow = createButton('');
-  buttonYellow.parent('#doodle-canvas');
+  buttonYellow.parent('#main-canvas');
   buttonYellow.class('yellow color-button');
   buttonYellow.mousePressed(function() {
     setColor(color(colorsHex[2]));
   });
 
   buttonBlue = createButton('');
-  buttonBlue.parent('#doodle-canvas');
+  buttonBlue.parent('#main-canvas');
   buttonBlue.class('blue color-button');
   buttonBlue.mousePressed(function() {
     setColor(color(colorsHex[3]));
@@ -110,28 +122,28 @@ function createColorButtons() {
 function createWeightButtons() {
 
   button1px = createButton('2px');
-  button1px.parent('#doodle-canvas');
+  button1px.parent('#main-canvas');
   button1px.class('weight-button');
   button1px.mousePressed(function() {
     currentWeight = 2;
   });
 
   button2px = createButton('4px');
-  button2px.parent('#doodle-canvas');
+  button2px.parent('#main-canvas');
   button2px.class('weight-button');
   button2px.mousePressed(function() {
     currentWeight = 4;
   });
 
   button4px = createButton('8px');
-  button4px.parent('#doodle-canvas');
+  button4px.parent('#main-canvas');
   button4px.class('weight-button');
   button4px.mousePressed(function() {
     currentWeight = 8;
   });
 
   button8px = createButton('16px');
-  button8px.parent('#doodle-canvas');
+  button8px.parent('#main-canvas');
   button8px.class('weight-button');
   button8px.mousePressed(function() {
     currentWeight = 16;
@@ -143,7 +155,7 @@ function createWeightButtons() {
 function createToolButtons() {
 
   buttonClear = createButton("Clear");
-  buttonClear.parent('#doodle-canvas');
+  buttonClear.parent('#main-canvas');
   buttonClear.class('tool-button');
   buttonClear.mousePressed(function() {
     drawingClear = drawing;
@@ -152,7 +164,7 @@ function createToolButtons() {
   });
 
   buttonErase = createButton("Erase");
-  buttonErase.parent('#doodle-canvas');
+  buttonErase.parent('#main-canvas');
   buttonErase.class('tool-button');
   buttonErase.mousePressed(function() {
     eraser = true;
@@ -160,7 +172,7 @@ function createToolButtons() {
   });
 
   buttonUndo = createButton("Undo");
-  buttonUndo.parent('#doodle-canvas');
+  buttonUndo.parent('#main-canvas');
   buttonUndo.class('tool-button');
   buttonUndo.mousePressed(function() {
 
@@ -175,7 +187,7 @@ function createToolButtons() {
   });
 
   buttonRedo = createButton("Redo");
-  buttonRedo.parent('#doodle-canvas');
+  buttonRedo.parent('#main-canvas');
   buttonRedo.class('tool-button');
   buttonRedo.mousePressed(function() {
 
@@ -187,7 +199,7 @@ function createToolButtons() {
   });
 
   buttonSave = createButton("Submit");
-  buttonSave.parent('#doodle-canvas');
+  buttonSave.parent('#main-canvas');
   buttonSave.class('tool-button');
   buttonSave.mousePressed(function() {
     var df = new DataFormat(drawing);
@@ -196,6 +208,8 @@ function createToolButtons() {
     df.addToVertexTable(socket);
 
     drawing = [];
+
+    socket.emit('getNewTune');
   });
 
   toolButtons = [buttonClear, buttonErase, buttonUndo, buttonRedo, buttonSave];
@@ -258,12 +272,20 @@ function createDrawing() {
 
 function createPlayButton() {
   buttonPlay = createButton("Play");
+<<<<<<< HEAD:public/sketch.js
   buttonPlay.parent('#doodle-canvas');
+=======
+  buttonPlay.parent('#main-canvas');
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
   buttonPlay.class('play-button');
   buttonPlay.mousePressed(playMusic);
 
   buttonNext = createButton("Next");
+<<<<<<< HEAD:public/sketch.js
   buttonNext.parent('#doodle-canvas');
+=======
+  buttonNext.parent('#main-canvas');
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
   buttonNext.class('play-button');
   buttonNext.mousePressed(function() {
     socket.emit('getNewTune');
@@ -277,9 +299,15 @@ async function sleep(ms = 0) {
 }
 
 async function playMusic() {
+<<<<<<< HEAD:public/sketch.js
 
   time = 600;
 
+=======
+
+  time = 600;
+
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
   for (var i = 0; i < playback.length; i++) {
     beat = playback[i];
     for (var j = 0; j < beat.length; j++) {
@@ -291,7 +319,11 @@ async function playMusic() {
 }
 
 function setup() {
+<<<<<<< HEAD:public/sketch.js
   canvas = createCanvas(400, 400);
+=======
+  canvas = createCanvas(400, 550);
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
   canvas.parent('#main-canvas');
   canvas.style('canvas');
   canvas.mousePressed(drawPath);
@@ -313,7 +345,7 @@ function setup() {
   currentWeight = 4;
 
   bounds = {
-    top: border,
+    top: 150 + border,
     bottom: canvas.height - border,
     left: border,
     right: canvas.width - border
@@ -321,6 +353,7 @@ function setup() {
 
   socket = io.connect('http://localhost:3000');
   socket.on('sendTune', function(data) {
+<<<<<<< HEAD:public/sketch.js
     playback = Object.values(data).slice(0, 4);
     melody = data.melody
     harmony = data.harmony
@@ -328,6 +361,20 @@ function setup() {
 
   // var vf = new Vex.Flow.Factory({renderer: {elementId: 'staff'}});
   // staff = new Staff(vf)
+=======
+    playback = Object.values(data.midi);
+    draw_notes = data.notes;
+  });
+
+  staff = new Staff(0, 60, canvas.width - 10, 55);
+  treble_clef = loadImage("img/treble_clef.jpg");
+  time_sig_4_4 = loadImage("img/time_sig_4_4.jpg");
+
+  images = {
+    treble: treble_clef,
+    four_four: time_sig_4_4
+  }
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
 }
 
 function draw() {
@@ -347,6 +394,7 @@ function draw() {
   rectMode(CORNERS);
   rect(bounds.left, bounds.top, bounds.right, bounds.bottom, 30);
 
+<<<<<<< HEAD:public/sketch.js
   socket.on('sendTune', function(data) {
     playback = Object.values(data).slice(0, 4);
     melody = data.melody
@@ -354,6 +402,23 @@ function draw() {
   });
 
   // staff.createStaff(harmony, melody);
+=======
+
+  socket.on('sendTune', function(data) {
+    playback = Object.values(data.midi);
+    draw_notes = data.notes;
+  });
+
+  staff.createStaff(images['treble'], images['four_four']);
+
+  if (draw_notes != undefined) {
+    for (var i = 0; i < draw_notes.length; i++) {
+      var n = draw_notes[i];
+      staff.place_note(n[0], n[1], n[2], n[3], n[4]);
+    }
+  }
+
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e:public/sketch.js
 }
 
 function windowResized() {

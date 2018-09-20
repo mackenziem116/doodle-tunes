@@ -2,6 +2,11 @@ const express = require('express');
 const socket = require('socket.io');
 const mysql = require('mysql');
 
+<<<<<<< HEAD
+=======
+var count = 0;
+
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e
 var app = express();
 var server = app.listen(3000);
 
@@ -24,7 +29,11 @@ function newConnection(socket) {
     session_start: createTimestamp()
   }
 
+<<<<<<< HEAD
   insertInto(connection, 'sessions', sessionTable);
+=======
+  // insertInto(connection, 'sessions', sessionTable);
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e
 
   socket.on('doodleTable', function(data) {
 
@@ -34,6 +43,7 @@ function newConnection(socket) {
       drawing_time: createTimestamp()
     }
 
+<<<<<<< HEAD
     insertInto(connection, 'doodles', data);
   });
 
@@ -46,17 +56,53 @@ function newConnection(socket) {
   });
 
   data = {
+=======
+    // insertInto(connection, 'doodles', data);
+  });
+
+  socket.on('pathTable', function(data) {
+    // insertInto(connection, 'path_characteristics', data);
+  });
+
+  socket.on('vertexTable', function(data) {
+    // insertInto(connection, 'path_verticies', data);
+  });
+
+  midi_data = {
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e
     1: [52, 44, 40],
     2: [47],
     3: [54, 47, 45],
     4: [52, 47, 44],
+<<<<<<< HEAD
     melody: 'C5/q, G4/q, D5/q, C5/q',
     harmony: '(C4 E4)/h, (F4 G4)/q, (E4 G4)/q'
+=======
+  }
+
+  note_data = [
+    ['C', 5, 1, 'q', 'up'],
+    ['G', 4, 2, 'q', 'up'],
+    ['D', 5, 3, 'q', 'up'],
+    ['C', 5, 4, 'q', 'up'],
+    ['C', 4, 1, 'h', 'down'],
+    ['E', 4, 1, 'h', 'down'],
+    ['F', 4, 3, 'q', 'down'],
+    ['G', 4, 3, 'q', 'down'],
+    ['E', 4, 4, 'q', 'down'],
+    ['G', 4, 4, 'q', 'down']
+  ]
+
+  data={
+    midi: midi_data,
+    notes: note_data
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e
   }
 
   socket.emit('sendTune', data);
 
   socket.on('getNewTune', function() {
+<<<<<<< HEAD
 
     data = {
       1: [56, 40, 37],
@@ -65,6 +111,57 @@ function newConnection(socket) {
       4: [49, 45, 40],
       melody: 'E5/q, C5/q, C5/q, A4/q',
       harmony: '(C4 A3)/h, (G4 F4)/q, (F4 C4)/q'
+=======
+    count += 1;
+
+    if (count % 2 == 1) {
+
+      midi_data = {
+        1: [56, 40, 39],
+        2: [52],
+        3: [52, 47, 45],
+        4: [49, 45, 40]
+      }
+
+      note_data = [
+        ['E', 5, 1, 'q', 'up'],
+        ['C', 5, 2, 'q', 'up'],
+        ['C', 5, 3, 'q', 'up'],
+        ['A', 4, 4, 'q', 'up'],
+        ['C', 4, 1, 'h', 'down'],
+        ['A', 4, 1, 'h', 'down'],
+        ['G', 4, 3, 'q', 'down'],
+        ['F', 4, 3, 'q', 'down'],
+        ['F', 4, 4, 'q', 'down'],
+        ['C', 4, 4, 'q', 'down']
+      ]
+    } else {
+
+      midi_data = {
+        1: [52, 44, 40],
+        2: [47],
+        3: [54, 47, 45],
+        4: [52, 47, 44],
+      }
+
+      note_data = [
+        ['C', 5, 1, 'q', 'up'],
+        ['G', 4, 2, 'q', 'up'],
+        ['D', 5, 3, 'q', 'up'],
+        ['C', 5, 4, 'q', 'up'],
+        ['C', 4, 1, 'h', 'down'],
+        ['E', 4, 1, 'h', 'down'],
+        ['F', 4, 3, 'q', 'down'],
+        ['G', 4, 3, 'q', 'down'],
+        ['E', 4, 4, 'q', 'down'],
+        ['G', 4, 4, 'q', 'down']
+      ]
+    }
+
+    data={
+      midi: midi_data,
+      notes: note_data
+>>>>>>> f1a85b57a1678da194fae961ee366b5a8e0f093e
     }
 
     socket.emit('sendTune', data);
