@@ -1,0 +1,130 @@
+body {
+  width    : 100%;
+  height   : 100%;
+  overflow : hidden;
+  background-color : #777;
+}
+
+#page {
+  position : absolute;
+  top      : 8px;
+  left     : 8px;
+  bottom   : 8px;
+  right    : 8px;
+  border-radius : 8px 8px 0 8px;
+  background-color : #F0EEE1;
+}
+
+#explination-left {
+  position: absolute;
+  left: 30px;
+  right: 915px;
+  top: 20px;
+  bottom: 125px;
+}
+
+#explination-right {
+  position: absolute;
+  left: 915px;
+  right: 30px;
+  top: 125px;
+  bottom: 125px;
+}
+
+#doodle {
+  position: relative;
+  top: 18%;
+  background-color : #777;
+}
+
+#title {
+	margin: 1em 0 0.5em 0;
+	color: #343434;
+	font-weight: normal;
+	font-family: 'fantasy', Chalkduster;
+	font-size: 52px;
+	line-height: 42px;
+	text-transform: uppercase;
+	text-shadow: 0 2px white, 0 3px #777;
+  text-align: center;
+}
+
+#staff {
+  position: absolute;
+  top: 100px;
+  bottom: 450px;
+  left: 255px;
+}
+
+.tool-button {
+  padding-left: .5em;
+  padding-right: .5em;
+  font-family: 'fantasy', Chalkduster;
+  font-size: 1em;
+  background-color: #F0EEE1;
+  border: 0;
+  border-radius: 1em;
+}
+
+.play-button {
+  padding: .5em;
+  font-family: 'fantasy', Chalkduster;
+  font-size: 1em;
+  background-color: #F0EEE1;
+  border: 3px solid ;
+  border-radius: 1em;
+
+}
+
+.weight-button {
+  padding-left: .5em;
+  padding-right: .5em;
+  font-family: 'fantasy', Chalkduster;
+  font-size: 1em;
+  background-color: #F0EEE1;
+  border: 0;
+  border-radius: 1em;
+}
+
+.color-button {
+  display: inline-block;
+  vertical-align: middle;
+  border: 0;
+  padding: .3em .5em;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-color: #F0EEE1;
+  transition: .4s ease;
+}
+
+.color-button:before {
+  content: '';
+  float: left;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1.5em;
+  margin-right: .3em;
+  margin-left: .3em;
+}
+
+button:focus {
+  outline: none !important;
+  box-shadow: 0px 0 1em rgb(0, 99, 234), 0 0 2em #FFF;
+}
+
+button:-moz-focus-inner {
+  border: 0;
+}
+
+.black:before  { background-color: black; }
+.white:before { background-color: white; }
+.red:before { background-color: red; }
+.yellow:before { background-color: yellow; }
+.blue:before { background-color: blue; }
+
+.canvas {
+  border: 3px solid black;
+}
