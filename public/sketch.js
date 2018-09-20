@@ -278,7 +278,7 @@ async function sleep(ms = 0) {
 
 async function playMusic() {
 
-  time = 800;
+  time = 600;
 
   for (var i = 0; i < playback.length; i++) {
     beat = playback[i];
@@ -292,12 +292,9 @@ async function playMusic() {
 
 function setup() {
   canvas = createCanvas(400, 400);
-  canvas.parent('#doodle-canvas');
+  canvas.parent('#main-canvas');
   canvas.style('canvas');
   canvas.mousePressed(drawPath);
-
-  const VF = Vex.Flow;
-  staff = new Staff(VF);
 
   for (var i = 1; i < 62; i++) {
     path = 'wav/' + i + '.wav'
@@ -328,6 +325,9 @@ function setup() {
     melody = data.melody
     harmony = data.harmony
   });
+
+  // var vf = new Vex.Flow.Factory({renderer: {elementId: 'staff'}});
+  // staff = new Staff(vf)
 }
 
 function draw() {
@@ -353,7 +353,7 @@ function draw() {
     harmony = data.harmony
   });
 
-  staff.createStaff(harmony, melody);
+  // staff.createStaff(harmony, melody);
 }
 
 function windowResized() {
