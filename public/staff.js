@@ -37,7 +37,35 @@ class Staff {
   }
 
 
-  place_note(note, octave, beat, duration, stem) {
+  place_note(note_details) {
+
+    var note = note_details['note_name'];
+    var octave = note_details['note_octave'];
+    var beat = note_details['beat_number'];
+    var duration = note_details['duration'];
+    var stem = note_details['stem'];
+
+    switch (duration) {
+      case 1:
+        duration = 'q';
+        break;
+      case 2:
+        duration = 'h';
+        break;
+      default:
+        break;
+    }
+
+    switch (stem) {
+      case 0:
+        stem = 'up';
+        break;
+      case 1:
+        stem = 'down';
+        break;
+      default:
+        break;
+    }
 
     var notes = {
       C4: 5.0,

@@ -1,5 +1,6 @@
 SELECT s.session_id,
 			   d.doodle_id,
+               t.tune_id,
                p.path_number,
 			   pv.vertex_count,
 			   p.color_r, 
@@ -8,6 +9,7 @@ SELECT s.session_id,
                p.stroke_weight
 FROM sessions s
 NATURAL JOIN doodles d
+NATURAL JOIN tunes t
 NATURAL JOIN path_characteristics p
 JOIN ( 
 		SELECT doodle_id, path_number, COUNT(vertex_number) AS vertex_count

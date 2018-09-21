@@ -5,9 +5,10 @@ class DataFormat {
     this.doodleID = Math.random().toString(24).substr(2, 15);
   }
 
-  addToDrawingTable(socket) {
+  addToDrawingTable(socket, tune) {
     var data = {
-      doodle_id: this.doodleID
+      doodle_id: this.doodleID,
+      tune_id: tune
     }
     socket.emit('doodleTable', data);
   }

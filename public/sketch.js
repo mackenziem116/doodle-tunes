@@ -25,8 +25,8 @@ var socket;
 var sessionID;
 
 var keys = [];
-var playback;
-var draw_notes;
+var tune_data;
+var current_tune;
 
 var staff;
 var images;
@@ -148,7 +148,6 @@ function createToolButtons() {
   buttonClear.mousePressed(function() {
     drawingClear = drawing;
     drawing = [];
-
   });
 
   buttonErase = createButton("Erase");
@@ -178,12 +177,10 @@ function createToolButtons() {
   buttonRedo.parent('#main-canvas');
   buttonRedo.class('tool-button');
   buttonRedo.mousePressed(function() {
-
     if (drawingRedo.length > 0) {
       redone = drawingRedo.pop();
       drawing.push(redone);
     }
-
   });
 
   buttonSave = createButton("Submit");
@@ -191,10 +188,9 @@ function createToolButtons() {
   buttonSave.class('tool-button');
   buttonSave.mousePressed(function() {
     var df = new DataFormat(drawing);
-    df.addToDrawingTable(socket);
+    df.addToDrawingTable(socket, current_tune);
     df.addToPathTable(socket);
     df.addToVertexTable(socket);
-
     drawing = [];
 
     socket.emit('getNewTune');
@@ -282,11 +278,13 @@ async function playMusic() {
 
   time = 600;
 
-  for (var i = 0; i < playback.length; i++) {
-    beat = playback[i];
-    for (var j = 0; j < beat.length; j++) {
-      midi_num = beat[j] - 1;
-      keys[midi_num].play();
+  for (var beat = 1; beat < 5; beat++) {
+    for (var i = 0; i < tune_data.length; i++) {
+      note = tune_data[i];
+      if (note.beat_number == beat) {
+        midi_num = note.playback_number;
+        keys[midi_num].play();
+      }
     }
     await sleep(time);
   }
@@ -323,8 +321,8 @@ function setup() {
 
   socket = io.connect('http://localhost:3000');
   socket.on('sendTune', function(data) {
-    playback = Object.values(data.midi);
-    draw_notes = data.notes;
+    tune_data = data;
+    current_tune = tune_data[0].tune_id
   });
 
   staff = new Staff(0, 60, canvas.width - 10, 55);
@@ -354,21 +352,19 @@ function draw() {
   rectMode(CORNERS);
   rect(bounds.left, bounds.top, bounds.right, bounds.bottom, 30);
 
-
   socket.on('sendTune', function(data) {
-    playback = Object.values(data.midi);
-    draw_notes = data.notes;
+    tune_data = data;
+    current_tune = tune_data[0].tune_id
   });
 
   staff.createStaff(images['treble'], images['four_four']);
 
-  if (draw_notes != undefined) {
-    for (var i = 0; i < draw_notes.length; i++) {
-      var n = draw_notes[i];
-      staff.place_note(n[0], n[1], n[2], n[3], n[4]);
+  if (tune_data != undefined) {
+    for (var i = 0; i < tune_data.length; i++) {
+      var note = tune_data[i];
+      staff.place_note(note);
     }
   }
-
 }
 
 function windowResized() {
