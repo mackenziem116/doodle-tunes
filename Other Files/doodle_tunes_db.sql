@@ -3,6 +3,8 @@ DROP DATABASE IF EXISTS doodle_tunes;
 CREATE DATABASE doodle_tunes;
 USE doodle_tunes;
 
+SET SQL_MODE='ALLOW_INVALID_DATES';
+
 CREATE TABLE notes (
 	note_id INT AUTO_INCREMENT PRIMARY KEY,
     note_name VARCHAR(2),
@@ -33,7 +35,7 @@ CREATE TABLE tune_components (
 );
 
 CREATE TABLE sessions (
-	session_id VARCHAR(20) NOT NULL PRIMARY KEY,
+	session_id VARCHAR(20) PRIMARY KEY,
     session_start TIMESTAMP,
     session_end TIMESTAMP
 );
