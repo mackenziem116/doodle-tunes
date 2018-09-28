@@ -1,10 +1,11 @@
-from musthe import *
+from musthe import Note, Scale, Chord
 
 import mysql.connector
 import pandas as pd
 
 import random
 import itertools
+from tqdm import tqdm
 
 cnxn = mysql.connector.connect(
     host='127.0.0.1',
@@ -23,29 +24,50 @@ notes_table = pd.DataFrame(table_rows,
 def get_id(note):
     return df[(df.note_name == str(note)) & (df.octave == note.octave)].iloc[0,0]
 
+def compare(a, opp, b):
+    if opp == '>':
+        case1 = (a.letter.idx > b.letter.idx) and (a.octave == b.octave)
+        case2 = a.octave > b.octave
+        return case1 or case2
+    elif opp == '<':
+        case1 = (a.letter.idx < b.letter.idx) and (a.octave == b.octave)
+        case2 = a.octave < b.octave
+        return case1 or case2
+
 possible_keys = ['C4', 'A4']
 possible_tonalities = ['major', 'harmonic_minor']
 
 key = Note(random.choice(possible_keys))
 tonality = random.choice(possible_tonalities)
 
+tune_chars = list(itertools.product(possible_keys, possible_tonalities))
 
-possible_notes = [*Scale(key, tonality)]
-melodies = list(itertools.permutations(possible_notes, 4))
+melodies = []
+good_melodies = []
 
-a = Note('A4')
-b = Note('G4')
+for k, t in tune_chars:
+    possible_notes = [*Scale(k, t)]
+    melodies += (list(itertools.permutations(possible_notes, 4)))
 
-print(a.less_than(b))
-#good_melodies = []
-#lowest = 'G4'
-#highest = 'A5'
-#for m in melodies:
-#    good = True
-#    for n in m:
-#        pass
-#    
-#
+lowest = Note('G4')
+highest = Note('A5')
+for melody in tqdm(melodies):
+    good = True
+    for note in melody:
+        if compare(note, '<', lowest):
+            good = False
+        elif compare(note, '>', highest):
+            good = False
+        else:
+            pass
+        
+    if good:
+        good_melodies.append(m)
+        
+print(len(melodies), len(good_melodies))
+            
+    
+
 #
 #
 #possible_harmony_beats = [(1, 2, 3, 4), 
