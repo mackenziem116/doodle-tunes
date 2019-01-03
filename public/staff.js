@@ -5,7 +5,7 @@ class Staff {
     this.y = y;
     this.length = length;
     this.height = height;
-    this.spacing = height / 5;
+    this.spacing = length / 34;
 
     this.beats = {
       1: this.x + this.spacing * 10,

@@ -31,31 +31,39 @@ var current_tune;
 var staff;
 var images;
 
+const widthFactor = 0.3125
+const heightFactor = 0.7971
+const ip = '127.0.0.1'//'192.168.1.1'
+
+var play_tune;
+
 border = 12;
 
 function positionDOMs() {
-  var x = ((windowWidth - width) / 2);
-  var y = -40;
+  canvas.resize(widthFactor * windowWidth, heightFactor * windowHeight);
+  var x = width / 3.6;
+  var y = -0.068 * height;
   canvas.position(x, y);
 
   spacing = .8 * ((canvas.height - (border * 4)) / colorButtons.length);
   for (var i = 0; i < colorButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + 200;
+    cbY = y + (i * spacing) + (canvas.y) + height/2.6;
     colorButtons[i].position(x + canvas.width + 10, cbY);
   }
 
   for (var i = 0; i < toolButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + 200;
+    cbY = y + (i * spacing) + (canvas.y) + height/2.6;
     toolButtons[i].position(x - 70, cbY);
   }
 
   for (var i = 0; i < weightButtons.length; i++) {
-    cbX = (i * spacing) + (canvas.x) + 60;
+    cbX = (i * spacing) + (canvas.x) + width/7;
     weightButtons[i].position(cbX, y + canvas.height);
   }
 
-  playButtons[0].position(x - 80, 32);
-  playButtons[1].position(x + canvas.width + 12, 32);
+  playButtons[0].position(x - 80, canvas.height * .055);
+  playButtons[1].position(x - 80, canvas.height * .055);
+  playButtons[2].position(x + canvas.width + 12, canvas.height * .055);
 
 }
 
@@ -258,41 +266,60 @@ function createPlayButton() {
   buttonPlay = createButton("Play");
   buttonPlay.parent('#main-canvas');
   buttonPlay.class('play-button');
-  buttonPlay.mousePressed(playMusic);
+  buttonPlay.mousePressed(toggleMusic);
+
+  buttonPause = createButton("Stop");
+  buttonPause.parent('#main-canvas');
+  buttonPause.class('play-button');
+  buttonPause.mousePressed(toggleMusic);
 
   buttonNext = createButton("Next");
   buttonNext.parent('#main-canvas');
   buttonNext.class('play-button');
   buttonNext.mousePressed(function() {
+    play_tune = false;
+    playButtons[1].hide();
+    playButtons[0].show();
     socket.emit('getNewTune');
   });
 
-  playButtons = [buttonPlay, buttonNext]
+  buttonPause.hide();
+  playButtons = [buttonPlay, buttonPause, buttonNext]
 }
 
 async function sleep(ms = 0) {
   return new Promise(r => setTimeout(r, ms));
 }
 
-async function playMusic() {
+async function toggleMusic() {
 
-  print(tune_data)
-  time = 600;
+  play_tune = !play_tune;
 
-  for (var beat = 1; beat < 5; beat++) {
-    for (var i = 0; i < tune_data.length; i++) {
-      note = tune_data[i];
-      if (note.beat_number == beat) {
-        midi_num = note.playback_number;
-        keys[midi_num - 1].play();
+  if(play_tune) {
+    playButtons[0].hide();
+    playButtons[1].show();
+  } else {
+    playButtons[1].hide();
+    playButtons[0].show();
+  }
+
+  time = 630;
+  while(play_tune) {
+    for (var beat = 1; beat < 5; beat++) {
+      for (var i = 0; i < tune_data.length; i++) {
+        note = tune_data[i];
+        if (note.beat_number == beat) {
+          midi_num = note.playback_number;
+          keys[midi_num - 1].play();
+        }
       }
+      await sleep(time);
     }
-    await sleep(time);
   }
 }
 
 function setup() {
-  canvas = createCanvas(400, 550);
+  canvas = createCanvas(widthFactor * windowWidth, heightFactor * windowHeight);
   canvas.parent('#main-canvas');
   canvas.style('canvas');
   canvas.mousePressed(drawPath);
@@ -320,7 +347,8 @@ function setup() {
     right: canvas.width - border
   }
 
-  socket = io.connect('http://localhost:3000');
+  play_tune = false;
+  socket = io.connect('http://'+ip+':80');
   socket.on('sendTune', function(data) {
     tune_data = data;
     current_tune = tune_data[0].tune_id
@@ -338,7 +366,7 @@ function setup() {
     flat: flat_sign
   }
 
-  staff = new Staff(0, 60, canvas.width - 10, 55, images);
+  staff = new Staff(0, canvas.height * .12, canvas.width - 10, heightFactor * .1 * windowHeight, images);
 }
 
 function draw() {

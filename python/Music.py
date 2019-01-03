@@ -8,9 +8,9 @@ import itertools
 from tqdm import tqdm
 
 cnxn = mysql.connector.connect(
-    host='127.0.0.1',
-    user='mackenziem',
-    password='password',
+    host='35.196.55.49',
+    user='root',
+    password='Macattack116',
     database='doodle_tunes'
 )
 

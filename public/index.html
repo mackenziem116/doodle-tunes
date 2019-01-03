@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle Tunes</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="lib/p5.min.js"></script>
     <script src="lib/p5.dom.min.js"></script>
     <script src="lib/p5.sound.js"></script>
@@ -15,23 +18,34 @@
     <script src="staff.js"></script>
     <script src="sketch.js"></script>
   </head>
-  <body>
-    <div id="page">
+  <body style="background-color : #F0EEE1;">
+
+    <div class="navbar">
+      <div class="container-fluid text-center">
         <h1 id="title">Doodle Tunes</h1>
-        <div id="doodle">
-          <div id="main-canvas"></div>
-        </div>
-      <div id="explination-left">
+      </div>
+    </div>
+
+    <div class='container-fluid' id="page">
+      <div class="col-sm-3 details">
         <h2>Welcome!</h2>
         <p>Doodle Tunes is a project to crowd source user created doodles based off small passages of music.</p>
         <br>
-        <h2>Instructions</h2>
-        <p>Begin by listening to or examining the small, one measure phrase displayed at the center of the screen. To play the phrase, click the 'Play' button. To skip the current phrase and move on to a new one, click the 'Next' button. Once you feel prepared to interpret the music, move on to the doodle canvas.</p>
+        <h2>The Tune</h2>
+        <p>Begin by listening to or examining the small, one measure phrase displayed at the center of the screen. To play the tune, click the 'Play' button. This will loop the tune until you press 'Pause' or move on to a new tune. To skip the current tune and move on to a new one, click the 'Next' button. Once you feel prepared to interpret the music, move on to the doodle canvas.</p>
 
-        <p>At the doodle canvas, take note of the colors to the right, the pixel values to the bottom, and the control buttons to the left. By clicking any one of the five colors, your doodle brush will change to that color. The pixel values control the weight of your strokes. The control buttons act as they say: Clear will clear the canvas (this is undo-able); Erase will set your doodle brush to erase mode; Undo will undo the last stroke; Redo will undo the last undo. When you are satisfied with your doodle, press the submit button. This will clear the canvas, save the drawing, and move on to a new musical phrase for more doodle fun!</p>
+        <p></p>
       </div>
-      <div id="explination-right">
+      <div class="col-sm-6" id="doodle">
+        <div id="main-canvas"></div>
+      </div>
+      <div class="col-sm-3 details">
+        <h2>The Canvas</h2>
+        <p>At the doodle canvas, take note of the colors to the right, the pixel values to the bottom, and the control buttons to the left. By clicking any one of the five colors, your doodle brush will change to that color.The pixel values control the weight of your strokes. The control buttons act as they say: Clear will clear the canvas (this is undo-able); Erase will set your doodle brush to erase mode; Undo will undo the last stroke; Redo will undo the last undo.
+
+        <br><br>When you are satisfied with your doodle, press the submit button. This will clear the canvas, save the drawing, and move on to a new musical phrase for more doodle fun!</p>
       </div>
     </div>
+
   </body>
 </html>

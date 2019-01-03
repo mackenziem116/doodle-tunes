@@ -1,16 +1,23 @@
 const express = require('express');
-const socket = require('socket.io');
+var http = require('http')
+var socket = require('socket.io')
 const mysql = require('mysql');
 
-var count = 0;
+//'192.168.1.1'
 
 var app = express();
-var server = app.listen(3000);
-
 app.use(express.static('public'))
+app.set('port', process.env.PORT || 80);
+app.set('host', process.env.HOST || '127.0.0.1');
+
+server = http.createServer(app).listen(app.get('port'), app.get('host'), function(){
+  console.log("Express server listening on port " + app.get('port'));
+});
 
 var io = socket(server);
 io.sockets.on('connection', newConnection)
+
+var count = 0;
 
 function newConnection(socket) {
 
