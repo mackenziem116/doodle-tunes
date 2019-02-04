@@ -1,0 +1,8 @@
+{
+  "dbHost": "127.0.0.1",
+  "dbName": "doodle_tunes",
+  "dbUser": "mackenziem",
+  "dbPassword": "password",
+  "vmPort": 80,
+  "vmHost": "127.0.0.1"
+}

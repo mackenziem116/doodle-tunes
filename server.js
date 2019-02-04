@@ -2,13 +2,14 @@ const express = require('express');
 var http = require('http')
 var socket = require('socket.io')
 const mysql = require('mysql');
+const CONFIG = require('./config.json');
 
-//'192.168.1.1'
+console.log(CONFIG)
 
 var app = express();
 app.use(express.static('public'))
-app.set('port', process.env.PORT || 80);
-app.set('host', process.env.HOST || '127.0.0.1');
+app.set('port', process.env.PORT || CONFIG.vmPort);
+app.set('host', process.env.HOST || CONFIG.vmHost);
 
 server = http.createServer(app).listen(app.get('port'), app.get('host'), function(){
   console.log("Express server listening on port " + app.get('port'));
@@ -17,15 +18,13 @@ server = http.createServer(app).listen(app.get('port'), app.get('host'), functio
 var io = socket(server);
 io.sockets.on('connection', newConnection)
 
-var count = 0;
-
 function newConnection(socket) {
 
   var connection = mysql.createConnection({
-    host     : '127.0.0.1',
-    user     : 'mackenziem',
-    password : 'password',
-    database : 'doodle_tunes'
+    host     : CONFIG.dbHost,
+    user     : CONFIG.dbUser,
+    password : CONFIG.dbPassword,
+    database : CONFIG.dbName
   });
 
   var sessionTable = {
@@ -39,7 +38,6 @@ function newConnection(socket) {
 
     var sql = "UPDATE sessions SET session_end = \"" + createTimestamp()
               + "\" WHERE session_id = \"" + socket.id + "\"";
-    // console.log(sql);
 
     connection.query(sql, function (err, result) {
       if (err) throw err;
@@ -65,7 +63,6 @@ function newConnection(socket) {
   socket.on('vertexTable', function(data) {
     insertInto(connection, 'path_verticies', data);
   });
-
 
   get_tune(connection, socket);
   socket.on('getNewTune', function() {
@@ -95,7 +92,6 @@ function insertInto(connection, table, data) {
   var values = '("' + Object.values(data).join('","') + '")';
 
   var sql = "INSERT INTO " + table + " " + fields + " VALUES " + values + ';';
-  // console.log(sql);
 
   connection.query(sql, [values], function (err, result) {
     if (err) throw err;
