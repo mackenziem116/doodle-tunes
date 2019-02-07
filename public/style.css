@@ -14,8 +14,17 @@ html, body {
 }
 
 .details {
+  padding-top: 2%;
   font-family: fantasy;
   font-size: 120%;
+  background-color : #F0EEE1;
+}
+
+.about-details {
+  padding-left: 2%;
+  padding-right: 2%;
+  font-family: ariel;
+  font-size: 103%;
   background-color : #F0EEE1;
 }
 
@@ -35,6 +44,24 @@ html, body {
 	font-size: 58px;
 	text-transform: uppercase;
 	text-shadow: 0 2px white, 0 3px #777;
+  text-align: center;
+}
+
+#subtitle {
+  color: #343434;
+	font-weight: lighter;
+	font-family: 'fantasy', Chalkduster;
+	font-size: 20px;
+	text-transform: uppercase;
+  text-align: center;
+}
+
+#about-title {
+	color: #343434;
+	font-weight: normal;
+	font-family: 'fantasy', Chalkduster;
+	font-size: 30px;
+	text-transform: uppercase;
   text-align: center;
 }
 

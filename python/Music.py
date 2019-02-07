@@ -8,10 +8,10 @@ import itertools
 from tqdm import tqdm
 
 cnxn = mysql.connector.connect(
-    host='35.196.55.49',
-    user='mackenziem',
-    password='Macattack116',
-    database='doodle_tunes'
+    host='34.73.43.3',
+    user='python',
+    password='pyPa55word',
+    database='doodletunes'
 )
 
 cursor = cnxn.cursor()
@@ -34,12 +34,10 @@ def compare(a, opp, b):
         case2 = a.octave < b.octave
         return case1 or case2
 
-possible_keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Bb', 'Eb']
+possible_keys = ['A', 'C', 'D', 'F', 'G', 'Bb', 'Eb']
 possible_tonalities = ['major', 
                        'natural_minor', 
-                       'harmonic_minor',
-                       'major_pentatonic',
-                       'minor_pentatonic']
+                       'major_pentatonic']
 
 key = Note(random.choice(possible_keys))
 tonality = random.choice(possible_tonalities)
@@ -57,7 +55,7 @@ for k, t in tune_chars:
 
 
 lowest = Note('F4')
-highest = Note('B5')
+highest = Note('A#5')
 for melody, k, t in tqdm(melodies):
     good = True
     for note in melody:
@@ -84,7 +82,7 @@ possible_harmony_beats = [((1, 1), (2, 1), (3, 1), (4, 1)),
 possible_harmony_qualities = ['maj', 'min']
 
 lowest = Note('B3')
-highest = Note('B4')
+highest = Note('A#5')
 
 tunes = []
 for melody, k, t in good_melodies:

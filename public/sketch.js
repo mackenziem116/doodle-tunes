@@ -32,7 +32,7 @@ var staff;
 var images;
 
 const widthFactor = 0.3125
-const heightFactor = 0.7971
+const heightFactor = 0.77
 const ip = '127.0.0.1'//'192.168.1.1'
 
 var play_tune;
@@ -42,17 +42,17 @@ border = 12;
 function positionDOMs() {
   canvas.resize(widthFactor * windowWidth, heightFactor * windowHeight);
   var x = width / 3.6;
-  var y = -0.068 * height;
+  var y = .22 * height;
   canvas.position(x, y);
 
   spacing = .8 * ((canvas.height - (border * 4)) / colorButtons.length);
   for (var i = 0; i < colorButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + height/2.6;
+    cbY = y + (i * spacing) + (canvas.y) + height/10;
     colorButtons[i].position(x + canvas.width + 10, cbY);
   }
 
   for (var i = 0; i < toolButtons.length; i++) {
-    cbY = y + (i * spacing) + (canvas.y) + height/2.6;
+    cbY = y + (i * spacing) + (canvas.y) + height/10;
     toolButtons[i].position(x - 70, cbY);
   }
 
@@ -61,10 +61,9 @@ function positionDOMs() {
     weightButtons[i].position(cbX, y + canvas.height);
   }
 
-  playButtons[0].position(x - 80, canvas.height * .055);
-  playButtons[1].position(x - 80, canvas.height * .055);
-  playButtons[2].position(x + canvas.width + 12, canvas.height * .055);
-
+  playButtons[0].position(x - 80, y * 1.5);
+  playButtons[1].position(x - 80, y * 1.5);
+  playButtons[2].position(x + canvas.width + 12, y * 1.5);
 }
 
 function setColor(c) {
@@ -366,7 +365,7 @@ function setup() {
     flat: flat_sign
   }
 
-  staff = new Staff(0, canvas.height * .12, canvas.width - 10, heightFactor * .1 * windowHeight, images);
+  staff = new Staff(0, canvas.height * .10, canvas.width - 10, heightFactor * .07 * windowHeight, images);
 }
 
 function draw() {
