@@ -65,10 +65,14 @@ CREATE TABLE harmony_details (
 		REFERENCES tunes (tune_id)
 );
 
-CREATE TABLE sessions (
+CREATE TABLE sessions_start (
 	session_id VARCHAR(20) PRIMARY KEY,
-    session_start TIMESTAMP,
-    session_end TIMESTAMP
+    session_start TIMESTAMP
+);
+
+CREATE TABLE sessions_end (
+	session_id VARCHAR(20) PRIMARY KEY,
+    session_start TIMESTAMP
 );
 
 CREATE TABLE doodles (
