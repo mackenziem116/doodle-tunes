@@ -1,6 +1,6 @@
--- DROP DATABASE IF EXISTS doodle_tunes;
+DROP DATABASE IF EXISTS doodletunes;
 
--- CREATE DATABASE doodle_tunes;
+CREATE DATABASE doodletunes;
 USE doodletunes;
 
 SET SQL_MODE='ALLOW_INVALID_DATES';

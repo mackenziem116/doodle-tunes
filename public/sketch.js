@@ -33,7 +33,7 @@ var images;
 
 const widthFactor = 0.3125
 const heightFactor = 0.77
-const ip = '127.0.0.1'//'192.168.1.1'
+const ip = '127.0.0.1' // '35.196.246.195'
 
 var play_tune;
 

@@ -7,11 +7,15 @@ import random
 import itertools
 from tqdm import tqdm
 
+import json
+with open('../config.json') as f:
+    config = json.load(f)
+
 cnxn = mysql.connector.connect(
-    host='34.73.43.3',
+    host=config['dbHost'],
     user='python',
     password='pyPa55word',
-    database='doodletunes'
+    database=config['dbName']
 )
 
 cursor = cnxn.cursor()
@@ -36,7 +40,8 @@ def compare(a, opp, b):
 
 possible_keys = ['A', 'C', 'D', 'F', 'G', 'Bb', 'Eb']
 possible_tonalities = ['major', 
-                       'natural_minor', 
+                       'natural_minor',
+                       'harmonic_minor',
                        'major_pentatonic']
 
 key = Note(random.choice(possible_keys))
@@ -53,7 +58,6 @@ for k, t in tune_chars:
     for melody in list(itertools.permutations(possible_notes, 4)):
         melodies.append((melody, k, t))
 
-
 lowest = Note('F4')
 highest = Note('A#5')
 for melody, k, t in tqdm(melodies):
@@ -68,7 +72,7 @@ for melody, k, t in tqdm(melodies):
         else:
             pass
 
-    if good:
+    if good and len(melody) == 4:
         good_melodies.append((melody, k, t))
 
 #print('Started with %i melodies, \nended with %i.' % (len(melodies), len(good_melodies)))
@@ -82,7 +86,7 @@ possible_harmony_beats = [((1, 1), (2, 1), (3, 1), (4, 1)),
 possible_harmony_qualities = ['maj', 'min']
 
 lowest = Note('B3')
-highest = Note('A#5')
+highest = Note('A4')
 
 tunes = []
 for melody, k, t in good_melodies:
@@ -97,6 +101,13 @@ for melody, k, t in good_melodies:
         root = melody[beat - 1]
         chord = Chord(root, harmony_quality)
         notes = random.sample(chord.notes, len(chord.notes))
+        
+        key_notes = Scale(k, tonality).notes
+        
+        for note in notes:
+            for kn in key_notes:
+                if note.letter == kn.letter:
+                    note.accidental = kn.accidental
 
         good_notes = []
         for note in notes:
@@ -115,8 +126,7 @@ for melody, k, t in good_melodies:
     tune.update({'beats': beats})
     tunes.append(tune)
 
-
-sample = random.sample(tunes, 5000)
+sample = random.sample(tunes, 2000)
 exceptions = []
 
 start_id = 2
@@ -131,7 +141,7 @@ for tune in tqdm(sample):
         for mel_beat, mel_note in enumerate(tune['melody']):
             note_id = get_id(mel_note)
             
-            melody_vals = (tune_id, note_id, mel_beat)
+            melody_vals = (tune_id, note_id, mel_beat + 1)
             melody_sql = ('INSERT INTO melody_notes(tune_id, note_id, '
                           'beat_number, duration) '
                           'VALUES (%i, %i, %i, 1);' % melody_vals)
