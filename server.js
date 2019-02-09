@@ -32,16 +32,16 @@ function newConnection(socket) {
     session_start: createTimestamp()
   }
 
-  insertInto(connection, 'sessions', sessionTable);
+  insertInto(connection, 'sessions_start', sessionTable);
 
   socket.on('disconnect', function () {
 
-    var sql = "UPDATE sessions SET session_end = \"" + createTimestamp()
-              + "\" WHERE session_id = \"" + socket.id + "\"";
-
-    connection.query(sql, function (err, result) {
-      if (err) throw err;
-    });
+    var sessionTable = {
+      session_id: socket.id,
+      session_end: createTimestamp()
+    }
+    
+    insertInto(connection, 'sessions_end', sessionTable);
   });
 
   socket.on('doodleTable', function(data) {

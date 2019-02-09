@@ -72,7 +72,7 @@ CREATE TABLE sessions_start (
 
 CREATE TABLE sessions_end (
 	session_id VARCHAR(20) PRIMARY KEY,
-    session_start TIMESTAMP
+    session_end TIMESTAMP
 );
 
 CREATE TABLE doodles (
@@ -80,9 +80,9 @@ CREATE TABLE doodles (
     session_id VARCHAR(20),
     drawing_time TIMESTAMP,
     tune_id INT,
-	CONSTRAINT fk_session_id_doodles_sessions
+	CONSTRAINT fk_session_id_doodles_sessions_start
 		FOREIGN KEY (session_id)
-        REFERENCES sessions (session_id),
+        REFERENCES sessions_start (session_id),
 	CONSTRAINT fk_tune_id_doodles_tunes
 		FOREIGN KEY (tune_id)
         REFERENCES tunes (tune_id)
