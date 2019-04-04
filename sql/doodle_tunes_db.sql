@@ -72,7 +72,10 @@ CREATE TABLE sessions_start (
 
 CREATE TABLE sessions_end (
 	session_id VARCHAR(20) PRIMARY KEY,
-    session_end TIMESTAMP
+    session_end TIMESTAMP,
+    CONSTRAINT fk_session_id_sessions_end_sessions_start
+		FOREIGN KEY (session_id)
+		REFERENCES sessions_start (session_id)
 );
 
 CREATE TABLE doodles (

@@ -1,0 +1,34 @@
+SELECT u.tune_id,
+			   u.note_id,
+			   u.beat_number,
+			   u.duration,
+			   u.stem,
+         u.tonality
+FROM (
+	SELECT t.tune_id,
+				   n.note_id,
+				   m.beat_number,
+				   m.duration,
+				   0 as stem,
+                   NULL as tonality
+	FROM tunes t
+	NATURAL JOIN notes n
+	NATURAL JOIN melody_notes m
+UNION
+	SELECT t.tune_id,
+				   n.note_id,
+				   h.beat_number,
+				   h.duration,
+				   1 as stem,
+				   hd.tonality
+	FROM tunes t
+	NATURAL JOIN notes n
+	NATURAL JOIN harmony_notes h
+	LEFT JOIN (
+			SELECT DISTINCT beat_number, tonality, tune_id
+			FROM harmony_details) as hd
+		ON t.tune_id = hd.tune_id
+		AND h.beat_number = hd.beat_number
+) AS u
+WHERE u.tune_id = %d
+ORDER BY u.stem, u.beat_number, u.note_id
